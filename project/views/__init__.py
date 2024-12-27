@@ -1,3 +1,3 @@
-from flask import Blueprint
-
 # Buat blueprint
+
+from project.views import *

@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Regi.com - Data Diri</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f7f7;
+    }
+    
+    .header {
+        background-color: #2b3f8e;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;  /* Kolom kiri lebih besar (2fr) dan kanan lebih kecil (1fr) */
+        gap: 20px;  /* Jarak antar kolom */
+        max-width: 100vw;  /* Pastikan container tidak terbatasi */
+        padding: 0 20px;  /* Padding horizontal */
+        width: 100%;  /* Pastikan lebar penuh */
+        box-sizing: border-box;  /* Memastikan padding tidak mempengaruhi lebar */
+    }
+
+    form {
+        display: contents;  /* Pastikan form tidak membatasi elemen grid */
+    }
+    
+    
+    .left-section, .right-section {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        overflow: hidden;
+    }
+    
+    .right-section {
+        /* Membatasi lebar kolom kanan jika dibutuhkan */
+        max-width: 350px;
+    }
+    
+    h2 {
+        margin-top: 0;
+        font-size: 18px;
+        color: #333;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 10px;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    
+    input[type="text"], input[type="email"] {
+        width: 95%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    
+    .detail-item {
+        margin-bottom: 15px;
+    }
+    
+    .detail-item span {
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    .detail-item p {
+        margin: 0;
+        color: #555;
+    }
+    
+    .button-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .button-container button {
+        background-color: #d32f2f;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .button-container button:hover {
+        background-color: #b71c1c;
+    }
+    
+    .total-harga {
+        background-color: #f9f9f9;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .total-harga p {
+        margin: 0;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .total-harga .final-total {
+        font-weight: bold;
+        font-size: 16px;
+        border-top: 1px solid #ddd;
+        padding-top: 10px;
+    }
+    
+    .additional-info {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #e9f7f9;
+        border: 1px solid #b2d4d8;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #333;
+    }
+    
+    .additional-info p {
+        margin: 5px 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>Regi.com</h1>
+</div>
+
+<div class="container">
+    <form action="{{ url_for('booking.contact_detail') }}" method="post">
+        <div class="left-section">
+            <h2>DETAIL KONTAK</h2>
+            <label for="nama">Nama Lengkap</label>
+            <input type="text" id="nama" name="nama_penyewa" placeholder="Masukkan nama Anda" required>
+    
+            <label for="telepon">Nomor Telepon</label>
+            <input type="text" id="telepon" name="no_telepon" placeholder="Masukkan nomor telepon Anda" required>
+    
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Masukkan email Anda" required>
+            
+            {% if car and tanggal_mulai and tanggal_selesai and lokasi_jemput and jenis_peminjaman %}
+            <h2>DETAIL SEWA</h2>
+            <div class="detail-item">
+                <span>{{ car.merk }}</span>
+            </div>
+            <div class="detail-item">
+                <span>Lokasi Kota</span>
+                <p>Yogyakarta</p>
+            </div>
+            <div class="detail-item">
+                <span>Tanggal Mulai</span>
+                <p>{{ tanggal_mulai }}</p>
+            </div>
+            <div class="detail-item">
+                <span>Lokasi Penjemputan</span>
+                <p>{{ lokasi_jemput }}</p>
+            </div>
+            <div class="detail-item">
+                <span>Tanggal Selesai</span>
+                <p>{{ tanggal_selesai }}</p>
+            </div>
+            <div class="detail-item">
+                <span>Type Pelayanan</span>
+                <p>{{ jenis_peminjaman }}</p>
+            </div>
+            {% else %}
+            <p>Data tidak lengkap atau tidak tersedia.</p>
+            {% endif %}
+        </div>
+
+        <div class="right-section">
+            {% if total_harga_harian and biaya_tambahan and total_harga %}
+            <h2>DETAIL HARGA</h2>
+            <div class="total-harga">
+                <p>
+                    <span>Total Harga Harian</span>
+                    <span id="harga-harian">{{ total_harga_harian }}</span>
+                </p>
+                <p>
+                    <span>Waktu Lebih</span>
+                    <span id="waktu-lebih">{{ biaya_tambahan }}</span>
+                </p>
+                <p>
+                    <span>Total Harga</span>
+                    <span id="total-harga">{{ total_harga }}</span>
+                </p>
+            </div>
+            <div class="button-container">
+                <button>PESAN</button>
+            </div>
+            <div class="additional-info">
+                <p><strong>Catatan:</strong></p>
+                <p>Harga sudah termasuk pajak dan asuransi kendaraan.</p>
+                <p>Pastikan informasi kontak yang Anda masukkan benar untuk pengiriman detail sewa.</p>
+            </div>
+            {% else %}
+            <p>Data harga tidak tersedia.</p>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}

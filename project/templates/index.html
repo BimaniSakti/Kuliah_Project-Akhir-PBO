@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Regi - Penyewaan Mobil Online</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+    
+    .header {
+        background-color: #2b3f8e;
+        font-size: 24px;
+        font-weight: bold;
+        color: white;
+        padding: 30px 20px;
+        text-align: center;
+    }
+    
+    .background {
+        background-image: url('static/image/background.jpg'); 
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        height: 300px;
+    }
+    
+    .form-container {
+        background-color: white;
+        width: 70%;
+        margin: -50px auto 0;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+    }
+    
+    .form-container h2 {
+        font-size: 18px;
+        margin-bottom: 15px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .form-container h2::before {
+        content: '\1F4CD';
+        font-size: 18px;
+    }
+    
+    .form-container .form-group {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .form-container .form-group div {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .form-container .form-group label {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+    
+    .form-container .form-group input {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    
+    .form-container .button-group {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+    }
+    
+    .form-container button {
+        flex: 1;
+        padding: 10px 20px;
+        font-size: 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .form-container .with-driver {
+        background-color: #fdfefe;
+        color: rgb(1, 1, 1);
+    }
+    
+    .form-container .keyless {
+        background-color: #fdfefe;
+        color: rgb(26, 26, 26);
+    }
+    
+    .form-container .search {
+        background-color: black;
+        color: white;
+    }
+    
+    .form-container .with-driver.selected {
+        background-color: #0056b3;
+        color: white;
+    }
+    
+    .form-container .keyless.selected {
+        background-color: #c82333;
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="header">Regi.com</div>
+<div class="background"></div>
+<div class="form-container">
+    <form action="{{ url_for('main.index') }}" method="post">
+        <h2>YOGYAKARTA</h2>
+        <div class="form-group">
+            <div>
+                <label for="start-date">Tanggal Mulai</label>
+                <input type="date" id="start-date" onchange="updateMinEndDate()" name="tanggal_mulai" required>
+            </div>
+            <div>
+                <label for="start-time">Waktu Mulai</label>
+                <input type="time" id="start-time" name="waktu_mulai" required>
+            </div>
+            <div>
+                <label for="end-date">Tanggal Selesai</label>
+                <input type="date" id="end-date" name="tanggal_selesai" required>
+            </div>
+            <div>
+                <label for="end-time">Waktu Selesai</label>
+                <input type="time" id="end-time" name="waktu_selesai" required>
+            </div>
+            <div>
+                <label for="jenis_peminjaman">Pilihan Driver</label>
+                <select id="jenis_peminjaman" name="jenis_peminjaman" required>
+                    <option value="Dengan Supir">Dengan Supir</option>
+                    <option value="Lepas Kunci">Lepas Kunci</option>
+                </select>
+            </div>
+        </div>
+        <div class="button-group">
+            <button class="search">Cari</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    function updateMinEndDate() {
+        const startDateInput = document.getElementById('start-date');
+        const endDateInput = document.getElementById('end-date');
+        endDateInput.min = startDateInput.value; 
+    }
+</script>
+{% endblock %}

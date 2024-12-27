@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %} 
+<title>Regi.com - jenis-pilihan</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f7f7;
+    }
+    
+    .header {
+        background-color: #2b3f8e;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+    }
+    
+    .car-info {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        padding: 15px;
+    }
+    
+    .car-info img {
+        max-width: 300px;
+        margin-right: 20px;
+        border-radius: 8px;
+    }
+    
+    .car-info h3 {
+        margin: 0;
+        font-size: 18px;
+    }
+    
+    .car-info p {
+        margin: 5px 0;
+        color: #555;
+    }
+    
+    .pickup-location {
+        margin-top: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+    
+    .pickup-location label {
+        font-size: 16px;
+        display: block;
+        margin-bottom: 10px;
+    }
+    
+    .pickup-location input[type="checkbox"] {
+        margin-right: 10px;
+    }
+    
+    .button-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .button-container button {
+        background-color: #d32f2f;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .button-container button:hover {
+        background-color: #b71c1c;
+    }
+</style>
+{% endblock %}
+
+{% block content %} 
+
+<div class="header">
+    <h1>Regi.com</h1>
+</div>
+
+<div class="container">
+    {% if car %}
+    <div class="car-info">
+        <img src="{{ url_for('static', filename='image/' + car.gambar_mobil) }}" alt="{{ car.merk }}">
+        <div>
+            <h3>{{ car.merk }}</h3>
+            <p>{{ tanggal_mulai }} - {{ tanggal_selesai }}</p>
+        </div>
+    </div>
+    {% endif %}
+    <form action="{{ url_for('booking.pickup_location') }}" method="post">
+        <div class="pickup-location">
+            <label for="pickup">Lokasi Penjemputan Anda dalam bentuk link google maps</label>
+            <input type="url" name="lokasi_jemput" id="pickup" placeholder="https://maps.app.goo.gl/" pattern="https:\/\/maps\.app\.goo\.gl\/.*" required>
+        </div>
+    
+        <div class="button-container">
+            <button id="continue-button">Lanjutkan</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

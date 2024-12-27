@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Regi.com - Jenis Supir</title> 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f7f7f7;
+    }
+
+    .header {
+        background-color: #2b3f8e;
+        color: white;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* 3 kolom dengan lebar sama */
+        gap: 20px; /* Jarak antar card */
+        padding: 20px; /* Padding pada container */
+        justify-content: space-between; /* Menyebarkan card dengan jarak antar card */
+        align-items: start; /* Menjaga card tetap di bagian atas */
+    }
+
+    .card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        padding: 10px;
+        width: 100%; /* Lebar card penuh dalam grid */
+        max-width: 350px; /* Membatasi lebar card */
+        margin: 0 auto; /* Menjaga card tetap di tengah */
+    }
+
+    .card img {
+        width: 100%;
+        height: auto;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 10px;
+    }
+
+    .card h3 {
+        margin: 10px 0;
+    }
+
+    .card p {
+        font-size: 14px;
+        color: #555;
+    }
+
+    .card .price {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+
+    .card button {
+        background-color: #d32f2f;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+        width: 100%; /* Tombol memenuhi lebar card */
+    }
+
+    .card button:hover {
+        background-color: #b71c1c;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="header">
+    <h1>Regi.com</h1>
+</div>
+
+<div class="container">
+    {% for car in cars %}
+    <form action="#" method="post">
+        <div class="card">
+            <img src="{{ url_for('static', filename='image/' + car.gambar_mobil) }}" alt="{{ car.merk }}">
+            <h3>{{ car.merk }}</h3>
+            <p>{{ car.deskripsi_mobil }}</p>
+            <p class="price">
+                Harga Harian: RP {{ car.harga_mobil }} <br>
+            </p>
+            <input type="hidden" name="mobil_id" value="{{ car.mobil_id }}">
+            <button type="submit">PESAN</button>
+        </div>
+    </form>
+    {% endfor %}
+</div>
+{% endblock %}
